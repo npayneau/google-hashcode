@@ -64,7 +64,7 @@ public class HashCodeSolution {
         List<Ride> rideOut = new ArrayList<>();
         rides.forEach(r -> {
             //On purge les rides non faisable
-            if(r.getLastest()<= it){
+            if(r.getLastest()< it){
                 rideOut.add(r);
             }else{
 
@@ -108,9 +108,9 @@ public class HashCodeSolution {
 
                 int idRide = lineNumber - 1;
                 Point p = new Point(Integer.valueOf(line[0]), Integer.valueOf(line[1]));
-                Point p2 = new Point(Integer.valueOf(line[1]), Integer.valueOf(line[2]));
-                int earlystart = Integer.valueOf(line[3]);
-                int lastest = Integer.valueOf(line[4]);
+                Point p2 = new Point(Integer.valueOf(line[2]), Integer.valueOf(line[3]));
+                int earlystart = Integer.valueOf(line[4]);
+                int lastest = Integer.valueOf(line[5]);
 
                 rides.add(new Ride((long)idRide, p, p2, earlystart, lastest));
             }
