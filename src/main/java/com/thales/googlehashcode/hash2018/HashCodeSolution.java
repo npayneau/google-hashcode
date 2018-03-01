@@ -62,23 +62,38 @@ public class HashCodeSolution {
 
     private void setRideToVehicle(final long it, Vehicle v){
         List<Ride> rideOut = new ArrayList<>();
+        int index = 0;
+        int limit = rides.size() < 100 ? rides.size() : rides.size();
         for(Ride r : rides){
             //On purge les rides non faisable
             if(r.getLastest()<= it){
                 rideOut.add(r);
             }else{
+                // On prend le ride le plus proche pour les 10% de la ride list
+                int minDist = Integer.MAX_VALUE;
+                int rideIndexSel = -1;
+                long newIt = 0;
+                for(int i = index; i< limit; i++){
+                    int distToArrive = findDist(v.getPosition(), rides.get(i).getStart());
+                    int distRide = findDist(r.getStart(), r.getFinish());
 
-                int distToArrive = findDist(v.getPosition(), r.getStart());
-                int distRide = findDist(r.getStart(), r.getFinish());
-                //Verification que c'est faisable
-                if(r.getLastest()>= distRide + distToArrive){
-                    v.getRideList().add(r);
-                    rideOut.add(r);
-                    v.setIteration(it+distRide+distToArrive);
-                    break;
+                    //Verification que c'est faisable
+                    if(r.getLastest()>= distRide + distToArrive){
+                        if(distToArrive < minDist){
+                            minDist = distToArrive;
+                            rideIndexSel = i;
+                            newIt = distRide+distToArrive;
+                        }
+                    }
                 }
-
+                if(rideIndexSel!=-1){
+                    v.getRideList().add(rides.get(rideIndexSel));
+                    rideOut.add(rides.get(rideIndexSel));
+                    v.setIteration(newIt);
+                }
+                break;
             }
+            index++;
         }
         rides.removeAll(rideOut);
     }
