@@ -64,14 +64,14 @@ public class HashCodeSolution {
         List<Ride> rideOut = new ArrayList<>();
         rides.forEach(r -> {
             //On purge les rides non faisable
-            if(r.getLastest()< it){
+            if(r.getLastest()<= it){
                 rideOut.add(r);
             }else{
 
                 int distToArrive = findDist(v.getPosition(), r.getStart());
                 int distRide = findDist(r.getStart(), r.getFinish());
                 //Verification que c'est faisable
-                if(r.getLastest()<= distRide + distToArrive){
+                if(r.getLastest()>= distRide + distToArrive){
                     v.getRideList().add(r);
                     rideOut.add(r);
                     v.setIteration(it+distRide+distToArrive);
@@ -121,6 +121,8 @@ public class HashCodeSolution {
         }
 
         rides = rides.stream().sorted(Comparator.comparing(Ride::getEarliest)).collect(Collectors.toList());
-        vehicles = Collections.nCopies(nvehicules,new Vehicle());
+        for(int i=0; i<nvehicules; i++){
+            vehicles.add(new Vehicle());
+        }
     }
 }
