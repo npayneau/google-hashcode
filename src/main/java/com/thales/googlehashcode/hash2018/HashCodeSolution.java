@@ -62,40 +62,45 @@ public class HashCodeSolution {
 
     private void setRideToVehicle(final long it, Vehicle v){
         List<Ride> rideOut = new ArrayList<>();
-        int index = 0;
-        int limit = rides.size() < 100 ? rides.size() : rides.size();
+        List<Ride> ridesSel = new ArrayList<>();
         for(Ride r : rides){
             //On purge les rides non faisable
             if(r.getLastest()<= it){
                 rideOut.add(r);
             }else{
-                // On prend le ride le plus proche pour les 10% de la ride list
-                int minDist = Integer.MAX_VALUE;
-                int rideIndexSel = -1;
-                long newIt = 0;
-                for(int i = index; i< limit; i++){
-                    int distToArrive = findDist(v.getPosition(), rides.get(i).getStart());
-                    int distRide = findDist(r.getStart(), r.getFinish());
-
-                    //Verification que c'est faisable
-                    if(r.getLastest()>= distRide + distToArrive){
-                        if(distToArrive < minDist){
-                            minDist = distToArrive;
-                            rideIndexSel = i;
-                            newIt = distRide+distToArrive;
-                        }
-                    }
+                int distToArrive = findDist(v.getPosition(), r.getStart());
+                int distRide = findDist(r.getStart(), r.getFinish());
+                //Verification que c'est faisable
+                if(r.getLastest()>= it + distRide + distToArrive){
+                    ridesSel.add(r);
                 }
-                if(rideIndexSel!=-1){
-                    v.getRideList().add(rides.get(rideIndexSel));
-                    rideOut.add(rides.get(rideIndexSel));
-                    v.setIteration(newIt);
-                }
-                break;
             }
-            index++;
         }
         rides.removeAll(rideOut);
+
+        Ride rideSel = null;
+        int distToArrive = 0;
+        int distRide = 0;
+        ridesSel = ridesSel.stream().sorted((o1, o2) -> new Integer(findDist(v.getPosition(),o1.getStart())).compareTo(new Integer(findDist(v.getPosition(),o2.getStart())))).collect(Collectors.toList());
+        for(Ride r : ridesSel){
+            distToArrive = findDist(v.getPosition(), r.getStart());
+            distRide = findDist(r.getStart(), r.getFinish());
+            if(r.getEarliest() >= it + distToArrive &&  r.getEarliest() <= it + distToArrive + 3 ){
+                rideSel = r;
+                break;
+            }
+        }
+        if(rides.size()>0){
+            if(rideSel == null){
+                rideSel = rides.get(0);
+                distToArrive = findDist(v.getPosition(), rideSel.getStart());
+                distRide = findDist(rideSel.getStart(), rideSel.getFinish());
+            }
+            v.getRideList().add(rideSel);
+            rideOut.add(rideSel);
+            v.setIteration(it+distRide+distToArrive);
+            rides.remove(rideSel);
+        }
     }
 
     private int findDist(Point p1, Point p2){
