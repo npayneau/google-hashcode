@@ -11,9 +11,9 @@ public class Vehicle {
 
     private Long id;
 
-    private Long iteration;
+    private Long iteration = null;
 
-    private Point position;
+    private Point position = new Point(0,0);
 
     private List<Ride> rideList = new ArrayList<>();
 

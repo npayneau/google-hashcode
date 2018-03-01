@@ -6,10 +6,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,9 +18,7 @@ public class HashCodeSolution {
 
     private final List<String> output = new ArrayList<>();
     private final int score = 0;
-    private final int steps = 0;
-    private final List<Vehicle> vehicles = null;
-    private final List<Ride> rides = null;
+    private int steps = 0;
 
     private List<Ride> rides = new ArrayList<>();
 
@@ -33,7 +29,6 @@ public class HashCodeSolution {
     int nvehicules;
     int nrides;
     int bonus;
-    int steps;
 
 
     public void run(final Scanner scanner) throws IOException {
@@ -94,7 +89,6 @@ public class HashCodeSolution {
     }
 
     private void inputParser(final Scanner scanner){
-<<<<<<< Updated upstream
 
         int lineNumber = 0;
 
@@ -127,12 +121,6 @@ public class HashCodeSolution {
         }
 
         rides = rides.stream().sorted(Comparator.comparing(Ride::getEarliest)).collect(Collectors.toList());
-
-=======
-        while (scanner.hasNext()){
-            Stream.of(scanner.nextLine().split(" ")).forEach(x -> System.out.println(x));
-
-        }
->>>>>>> Stashed changes
+        vehicles = Collections.nCopies(nvehicules,new Vehicle());
     }
 }
