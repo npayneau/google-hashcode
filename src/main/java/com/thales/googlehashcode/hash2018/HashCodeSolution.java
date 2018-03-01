@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+<<<<<<< Updated upstream
 import java.util.stream.Collectors;
+=======
+import java.util.stream.Stream;
+>>>>>>> Stashed changes
 
 @Getter
 @Setter
@@ -19,6 +23,9 @@ public class HashCodeSolution {
 
     private final List<String> output = new ArrayList<>();
     private final int score = 0;
+    private final int steps = 0;
+    private final List<Vehicle> vehicles = null;
+    private final List<Ride> rides = null;
 
     private List<Ride> rides = new ArrayList<>();
 
@@ -42,6 +49,17 @@ public class HashCodeSolution {
 
         log.info("============== START SOLUTION ==============");
 
+        //Trie des rides
+        for(long ite=0; ite <steps; ite++ ){
+            final long iteration = ite;
+            vehicles.forEach( v -> {
+                //Si il a un timer ou le timer est
+                if(v.getIteration()== null || v.getIteration()<= iteration ){
+                    // On peut lui attributer un ride
+                    setRideToVehicle(iteration,v);
+                }
+            });
+        }
         
 
         this.vehicles.forEach(vehicle -> {
@@ -56,7 +74,36 @@ public class HashCodeSolution {
 
     }
 
+    private void setRideToVehicle(final long it, Vehicle v){
+        List<Ride> rideOut = new ArrayList<>();
+        rides.forEach(r -> {
+            //On purge les rides non faisable
+            if(r.getLastest()<= it){
+                rideOut.add(r);
+            }else{
+
+                int distToArrive = findDist(v.getPosition(), r.getStart());
+                int distRide = findDist(r.getStart(), r.getFinish());
+                //Verification que c'est faisable
+                if(r.getLastest()<= distRide + distToArrive){
+                    v.getRideList().add(r);
+                    rideOut.add(r);
+                    v.setIteration(it+distRide+distToArrive);
+                    return;
+                }
+
+            }
+        });
+        //Suppression des rides perimés
+        rides.removeAll(rideOut);
+    }
+
+    private int findDist(Point p1, Point p2){
+        return (int)(Math.abs(p1.getX()-p2.getX())+ Math.abs(p1.getY()-p2.getY()));
+    }
+
     private void inputParser(final Scanner scanner){
+<<<<<<< Updated upstream
 
         int lineNumber = 0;
 
@@ -90,5 +137,11 @@ public class HashCodeSolution {
 
         rides = rides.stream().sorted(Comparator.comparing(Ride::getEarliest)).collect(Collectors.toList());
 
+=======
+        while (scanner.hasNext()){
+            Stream.of(scanner.nextLine().split(" ")).forEach(x -> System.out.println(x));
+
+        }
+>>>>>>> Stashed changes
     }
 }
