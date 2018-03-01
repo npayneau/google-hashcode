@@ -10,11 +10,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-<<<<<<< Updated upstream
 import java.util.stream.Collectors;
-=======
 import java.util.stream.Stream;
->>>>>>> Stashed changes
 
 @Getter
 @Setter
@@ -40,14 +37,8 @@ public class HashCodeSolution {
 
 
     public void run(final Scanner scanner) throws IOException {
-        log.info("============== START INPUT PARSER ==============");
         //Call parser
         inputParser(scanner);
-        log.info("============== END INPUT PARSER ==============");
-
-
-
-        log.info("============== START SOLUTION ==============");
 
         //Trie des rides
         for(long ite=0; ite <steps; ite++ ){
@@ -61,10 +52,9 @@ public class HashCodeSolution {
             });
         }
         
-
         this.vehicles.forEach(vehicle -> {
             StringBuilder sb = new StringBuilder();
-            sb.append(this.rides.size());
+            sb.append(vehicle.getRideList().size());
 
             vehicle.getRideList().forEach(ride -> {
                 sb.append(" " + ride.getId());
@@ -72,6 +62,7 @@ public class HashCodeSolution {
             this.output.add(sb.toString());
         });
 
+        log.info("");
     }
 
     private void setRideToVehicle(final long it, Vehicle v){
