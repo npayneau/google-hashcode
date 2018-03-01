@@ -22,6 +22,8 @@ public class HashCodeSolution {
 
     private List<Ride> rides = new ArrayList<>();
 
+    List<Vehicle> vehicles = new ArrayList<>();
+
     int nrow;
     int ncol;
     int nvehicules;
@@ -36,9 +38,22 @@ public class HashCodeSolution {
         inputParser(scanner);
         log.info("============== END INPUT PARSER ==============");
 
+
+
         log.info("============== START SOLUTION ==============");
 
-        //TODO implements solution
+        
+
+        this.vehicles.forEach(vehicle -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(this.rides.size());
+
+            vehicle.getRideList().forEach(ride -> {
+                sb.append(" " + ride.getId());
+            });
+            this.output.add(sb.toString());
+        });
+
     }
 
     private void inputParser(final Scanner scanner){

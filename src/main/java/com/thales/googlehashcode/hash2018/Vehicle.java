@@ -3,6 +3,7 @@ package com.thales.googlehashcode.hash2018;
 import lombok.Data;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,6 +15,6 @@ public class Vehicle {
 
     private Point position;
 
-    private List<Ride> rideList;
+    private List<Ride> rideList = new ArrayList<>();
 
 }
