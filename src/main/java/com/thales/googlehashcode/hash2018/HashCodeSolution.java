@@ -41,12 +41,10 @@ public class HashCodeSolution {
 
 
         log.info("============== START SOLUTION ==============");
-
         
-
         this.vehicles.forEach(vehicle -> {
             StringBuilder sb = new StringBuilder();
-            sb.append(this.rides.size());
+            sb.append(vehicle.getRideList().size());
 
             vehicle.getRideList().forEach(ride -> {
                 sb.append(" " + ride.getId());
@@ -54,6 +52,7 @@ public class HashCodeSolution {
             this.output.add(sb.toString());
         });
 
+        log.info("");
     }
 
     private void inputParser(final Scanner scanner){
