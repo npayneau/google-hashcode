@@ -62,7 +62,7 @@ public class HashCodeSolution {
 
     private void setRideToVehicle(final long it, Vehicle v){
         List<Ride> rideOut = new ArrayList<>();
-        rides.forEach(r -> {
+        for(Ride r : rides){
             //On purge les rides non faisable
             if(r.getLastest()<= it){
                 rideOut.add(r);
@@ -75,12 +75,11 @@ public class HashCodeSolution {
                     v.getRideList().add(r);
                     rideOut.add(r);
                     v.setIteration(it+distRide+distToArrive);
-                    return;
+                    break;
                 }
 
             }
-        });
-        //Suppression des rides perimés
+        }
         rides.removeAll(rideOut);
     }
 
