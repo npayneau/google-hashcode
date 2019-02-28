@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class HashCodeSolution {
 
     private final List<String> output = new ArrayList<>();
+    private SlideShow slideShow;
     private final int score = 0;
 
     public void run(final Scanner scanner) throws IOException {
@@ -58,6 +59,7 @@ public class HashCodeSolution {
                 slide = new Slide();
             }
         }
+    this.slideShow = ss;
     }
 
     private List<Picture> inputParser(final Scanner scanner){
@@ -78,5 +80,23 @@ public class HashCodeSolution {
             id++;
         }
         return pictures;
+    }
+
+    public List<String> getOutput() {
+        List<String> output = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(this.slideShow.getSlides().size());
+        output.add(sb.toString());
+
+        this.slideShow.getSlides().stream().forEach(slide -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(slide.getPictures().get(0));
+            stringBuilder.append(' ');
+            stringBuilder.append(slide.getPictures().get(1));
+            output.add(stringBuilder.toString());
+        });
+
+        return output;
     }
 }
