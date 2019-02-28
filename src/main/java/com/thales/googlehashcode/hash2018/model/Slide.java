@@ -8,4 +8,8 @@ import java.util.List;
 @Data
 public class Slide {
     List<Picture> pictures = new ArrayList<Picture>();
+
+    public Slide(List<Picture> pictures) {
+        this.pictures = pictures;
+    }
 }
