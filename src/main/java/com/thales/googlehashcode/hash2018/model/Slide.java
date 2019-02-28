@@ -5,11 +5,10 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 public class Slide {
-    List<Picture> pictures = new ArrayList<Picture>();
+    List<Integer> pictures = new ArrayList<Integer>();
 
-    public Slide(List<Picture> pictures) {
-        this.pictures = pictures;
+    public void addPicture(int picture){
+        pictures.add(picture);
     }
 }

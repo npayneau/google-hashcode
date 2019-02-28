@@ -1,13 +1,15 @@
 package com.thales.googlehashcode.hash2018;
 
+import com.thales.googlehashcode.hash2018.model.Picture;
+import com.thales.googlehashcode.hash2018.model.Slide;
+import com.thales.googlehashcode.hash2018.model.SlideShow;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,16 +22,54 @@ public class HashCodeSolution {
     public void run(final Scanner scanner) throws IOException {
         log.info("============== START INPUT PARSER ==============");
         //Call parser
-        inputParser(scanner);
+        List<Picture> pictures = inputParser(scanner);
         log.info("============== END INPUT PARSER ==============");
 
         log.info("============== START SOLUTION ==============");
 
-        //TODO implements solution
+        List<Picture> picturesH  = pictures.stream().filter(p -> p.getOrientation()==0).
+                collect(Collectors.toList());
+        List<Picture> picturesV  = pictures.stream().filter(p -> p.getOrientation()==1).
+                collect(Collectors.toList());
+
+        log.info(pictures.toString());
+
+        List<Picture> picturesHOrdered = picturesH.stream().sorted(Comparator.comparing(p -> p.getTags().size())).
+                collect(Collectors.toList());
+
+        List<Picture> picturesVOrdered = picturesV.stream().sorted(Comparator.comparing(p -> p.getTags().size())).
+                collect(Collectors.toList());
+
+        if( picturesVOrdered.size() % 2 == 1 ){
+            picturesVOrdered.remove(0);
+        }
+
+        SlideShow ss = new SlideShow();
+        for (Picture p : picturesHOrdered.size()){
+            Slide slide = new Slide();
+            slide.addPicture(p.getId());
+            ss.getSlides().add(slide);
+        }
+
     }
 
-    private void inputParser(final Scanner scanner){
-        final String[] firstLine = scanner.nextLine().split(" ");
-        //TODO implements parserInput
+    private List<Picture> inputParser(final Scanner scanner){
+        int nbPicture = Integer.parseInt(scanner.nextLine().split(" ")[0]);
+        List<Picture> pictures = new ArrayList<Picture>();
+        int id = 0;
+        while (scanner.hasNext()) {
+            final String[] picture = scanner.nextLine().split(" ");
+            String orientation = picture[0];
+            int orient = 0;
+            if(orientation.equals("V")){
+                orient = 1;
+            }
+            List<String> tags = Arrays.stream(picture).collect(Collectors.toList());
+            tags.remove(0);
+            tags.remove(1);
+            pictures.add(new Picture(id, orient, tags ));
+            id++;
+        }
+        return pictures;
     }
 }
