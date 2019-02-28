@@ -61,11 +61,11 @@ public class HashCodeSolution {
         }
 
         //Reorderer backlog
-        SlideShow ss = new SlideShow();
+        this.slideShow = new SlideShow();
         int indexx = 0;
         if(backlogSlide.size()<3000){
             Slide workingSlide = backlogSlide.get(0);
-            algo1(workingSlide,0, backlogSlide,ss);
+            algo1(workingSlide,0, backlogSlide,this.slideShow);
         }else{
 
             for (int i = 0; i< backlogSlide.size(); i++){
@@ -76,7 +76,7 @@ public class HashCodeSolution {
                     }
                     List<Slide> tempBacklogslide = backlogSlide.subList(i,sublistmax);
                     Slide workingSlide = tempBacklogslide.get(0);
-                    algo1(workingSlide,0, tempBacklogslide,ss);
+                    algo1(workingSlide,0, tempBacklogslide,this.slideShow);
                 }
             }
         }
@@ -85,13 +85,13 @@ public class HashCodeSolution {
     }
 
     private void algo1(Slide workingSlide, int index,  List<Slide> backlogSlide, SlideShow ss){
-        backlogSlide.remove(0);
+        backlogSlide.remove(index);
         ss.getSlides().add(workingSlide);
         boolean findWorkingSlide = false;
         for(int i =0; i< backlogSlide.size(); i++){
             if(backlogSlide.get(i).getTags().stream()
                     .filter(workingSlide.getTags()::contains)
-                    .collect(Collectors.toList()).size() >= 1){
+                    .collect(Collectors.toList()).size() >= 3){
                 workingSlide = backlogSlide.get(i);
                 index = i;
                 findWorkingSlide= true;
