@@ -92,8 +92,10 @@ public class HashCodeSolution {
         this.slideShow.getSlides().stream().forEach(slide -> {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(slide.getPictures().get(0));
-            stringBuilder.append(' ');
-            stringBuilder.append(slide.getPictures().get(1));
+            if (slide.getPictures().size() > 1) {
+                stringBuilder.append(' ');
+                stringBuilder.append(slide.getPictures().get(1));
+            }
             output.add(stringBuilder.toString());
         });
 
