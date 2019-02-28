@@ -45,21 +45,64 @@ public class HashCodeSolution {
             picturesVOrdered.remove(0);
         }
 
-        SlideShow ss = new SlideShow();
+        List<Slide> backlogSlide = new ArrayList<>();
         for (Picture p : picturesHOrdered){
             Slide slide = new Slide();
-            slide.addPicture(p.getId());
-            ss.getSlides().add(slide);
+            slide.addPicture(p.getId(), p.getTags());
+            backlogSlide.add(slide);
         }
         Slide slide = new Slide();
         for (int i = 0; i< picturesVOrdered.size(); i++){
-            slide.addPicture(picturesVOrdered.get(i).getId());
+            slide.addPicture(picturesVOrdered.get(i).getId(), picturesVOrdered.get(i).getTags());
             if(i%2 == 1) {
-                ss.getSlides().add(slide);
+                backlogSlide.add(slide);
                 slide = new Slide();
             }
         }
-    this.slideShow = ss;
+
+        //Reorderer backlog
+        SlideShow ss = new SlideShow();
+        int indexx = 0;
+        if(backlogSlide.size()<3000){
+            Slide workingSlide = backlogSlide.get(0);
+            algo1(workingSlide,0, backlogSlide,ss);
+        }else{
+
+            for (int i = 0; i< backlogSlide.size(); i++){
+                if(i%3000 == 0) {
+                    int sublistmax = 2999 + i;
+                    if(i+2999 > backlogSlide.size()){
+                        sublistmax = backlogSlide.size();
+                    }
+                    List<Slide> tempBacklogslide = backlogSlide.subList(i,sublistmax);
+                    Slide workingSlide = tempBacklogslide.get(0);
+                    algo1(workingSlide,0, tempBacklogslide,ss);
+                }
+            }
+        }
+
+
+    }
+
+    private void algo1(Slide workingSlide, int index,  List<Slide> backlogSlide, SlideShow ss){
+        backlogSlide.remove(0);
+        ss.getSlides().add(workingSlide);
+        boolean findWorkingSlide = false;
+        for(int i =0; i< backlogSlide.size(); i++){
+            if(backlogSlide.get(i).getTags().stream()
+                    .filter(workingSlide.getTags()::contains)
+                    .collect(Collectors.toList()).size() >= 1){
+                workingSlide = backlogSlide.get(i);
+                index = i;
+                findWorkingSlide= true;
+                break;
+            }
+        }
+        if(findWorkingSlide){
+            algo1(workingSlide, index, backlogSlide, ss);
+        }else if (backlogSlide.size()>0){
+                algo1(backlogSlide.get(0), 0, backlogSlide, ss);
+        }
     }
 
     private List<Picture> inputParser(final Scanner scanner){
