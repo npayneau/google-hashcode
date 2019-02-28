@@ -59,9 +59,52 @@ public class HashCodeSolution {
                 slide = new Slide();
             }
         }
-
-        //Reorderer backlog
         this.slideShow = new SlideShow();
+        algo1start(backlogSlide);
+        //algo2startForHPicture(picturesHOrdered);
+
+    }
+
+    private void algo2startForHPicture (List<Picture> picturesHOrdered){
+        Map<String, List<Integer>> tagsPict = new HashMap<>();
+        for(Picture pict : picturesHOrdered ){
+            for (String tag :  pict.getTags()){
+                List<Integer> picts = tagsPict.get(tag);
+                if(picts==null){
+                    picts = new ArrayList<>();
+                }
+                picts.add(pict.getId());
+                tagsPict.put(tag,picts);
+            }
+        }
+        Map<Integer, Integer> blackList = new HashMap<>();
+        for(Map.Entry<String, List<Integer>> e : tagsPict.entrySet() ){
+            if(e.getValue().size()>1) {
+                for (Integer idPit : e.getValue()) {
+                    if (blackList.get(idPit) == null) {
+                        Slide s = new Slide();
+                        s.addPicture(idPit);
+                        blackList.put(idPit, 0);
+                        this.slideShow.getSlides().add(s);
+                    }
+                }
+            }
+        }
+        for(Map.Entry<String, List<Integer>> e : tagsPict.entrySet() ){
+            for (Integer idPit : e.getValue()) {
+                if (blackList.get(idPit) == null) {
+                    Slide s = new Slide();
+                    s.addPicture(idPit);
+                    blackList.put(idPit, 0);
+                    this.slideShow.getSlides().add(s);
+                }
+            }
+        }
+    }
+
+
+    private void algo1start (List<Slide> backlogSlide){
+        //Reorderer backlog
         int indexx = 0;
         if(backlogSlide.size()<3000){
             Slide workingSlide = backlogSlide.get(0);
@@ -80,8 +123,6 @@ public class HashCodeSolution {
                 }
             }
         }
-
-
     }
 
     private void algo1(Slide workingSlide, int index,  List<Slide> backlogSlide, SlideShow ss){
@@ -91,7 +132,7 @@ public class HashCodeSolution {
         for(int i =0; i< backlogSlide.size(); i++){
             if(backlogSlide.get(i).getTags().stream()
                     .filter(workingSlide.getTags()::contains)
-                    .collect(Collectors.toList()).size() >= 3){
+                    .collect(Collectors.toList()).size() >= 1){
                 workingSlide = backlogSlide.get(i);
                 index = i;
                 findWorkingSlide= true;
@@ -118,7 +159,7 @@ public class HashCodeSolution {
             }
             List<String> tags = Arrays.stream(picture).collect(Collectors.toList());
             tags.remove(0);
-            tags.remove(1);
+            tags.remove(0);
             pictures.add(new Picture(id, orient, tags ));
             id++;
         }

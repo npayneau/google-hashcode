@@ -16,5 +16,9 @@ public class Slide {
         this.tags.addAll(tags);
     }
 
+    public void addPicture(int picture){
+        pictures.add(picture);
+    }
+
 
 }
