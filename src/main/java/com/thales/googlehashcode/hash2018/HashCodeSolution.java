@@ -32,25 +32,32 @@ public class HashCodeSolution {
         List<Picture> picturesV  = pictures.stream().filter(p -> p.getOrientation()==1).
                 collect(Collectors.toList());
 
-        log.info(pictures.toString());
-
         List<Picture> picturesHOrdered = picturesH.stream().sorted(Comparator.comparing(p -> p.getTags().size())).
                 collect(Collectors.toList());
+        Collections.reverse(picturesHOrdered);
 
         List<Picture> picturesVOrdered = picturesV.stream().sorted(Comparator.comparing(p -> p.getTags().size())).
                 collect(Collectors.toList());
+        Collections.reverse(picturesVOrdered);
 
         if( picturesVOrdered.size() % 2 == 1 ){
             picturesVOrdered.remove(0);
         }
 
         SlideShow ss = new SlideShow();
-        for (Picture p : picturesHOrdered.size()){
+        for (Picture p : picturesHOrdered){
             Slide slide = new Slide();
             slide.addPicture(p.getId());
             ss.getSlides().add(slide);
         }
-
+        Slide slide = new Slide();
+        for (int i = 0; i< picturesVOrdered.size(); i++){
+            slide.addPicture(picturesVOrdered.get(i).getId());
+            if(i%2 == 1) {
+                ss.getSlides().add(slide);
+                slide = new Slide();
+            }
+        }
     }
 
     private List<Picture> inputParser(final Scanner scanner){
