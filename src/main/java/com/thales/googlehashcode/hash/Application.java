@@ -1,4 +1,4 @@
-package com.thales.googlehashcode.hash2018;
+package com.thales.googlehashcode.hash;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;

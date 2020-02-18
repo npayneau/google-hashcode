@@ -1,4 +1,4 @@
-package com.thales.googlehashcode.hash2018;
+package com.thales.googlehashcode.hash;
 
 import lombok.Getter;
 import lombok.Setter;
